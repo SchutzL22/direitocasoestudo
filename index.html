@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ministério Público — SafeCloud | Estudo de Caso CDC</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --verde: #1a4731;
+    --verde-meio: #2d6a4f;
+    --verde-claro: #52b788;
+    --ouro: #c9a84c;
+    --ouro-claro: #e9c46a;
+    --creme: #fdf6e3;
+    --cinza: #2b2d42;
+    --branco: #ffffff;
+    --vermelho: #c1121f;
+    --bg: #0f1f17;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--creme);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ── */
+  header {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 3rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(82,183,136,.18) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 40% at 80% 80%, rgba(201,168,76,.12) 0%, transparent 60%);
+  }
+
+  .selos {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .selo {
+    background: rgba(82,183,136,.12);
+    border: 1px solid rgba(82,183,136,.35);
+    color: var(--verde-claro);
+    font-family: 'DM Mono', monospace;
+    font-size: .7rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    padding: .35rem .9rem;
+    border-radius: 2px;
+  }
+
+  .selo.ouro {
+    background: rgba(201,168,76,.12);
+    border-color: rgba(201,168,76,.4);
+    color: var(--ouro-claro);
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.6rem, 7vw, 5.5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    color: var(--creme);
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+  }
+
+  header h1 span {
+    color: var(--verde-claro);
+    display: block;
+  }
+
+  .subtitulo {
+    margin-top: 1.4rem;
+    font-size: 1.05rem;
+    color: rgba(253,246,227,.6);
+    max-width: 600px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .integrantes-header {
+    margin-top: 2.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .6rem;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .integrante-tag {
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.1);
+    padding: .3rem .8rem;
+    border-radius: 999px;
+    font-size: .8rem;
+    color: rgba(253,246,227,.7);
+    transition: all .3s;
+  }
+
+  .integrante-tag.destaque {
+    background: rgba(201,168,76,.18);
+    border-color: var(--ouro);
+    color: var(--ouro-claro);
+    font-weight: 600;
+  }
+
+  .seta {
+    margin-top: 3.5rem;
+    position: relative;
+    z-index: 1;
+    animation: bounce 2s infinite;
+    color: var(--verde-claro);
+    font-size: 1.8rem;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(8px); }
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(15,31,23,.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(82,183,136,.2);
+    padding: .8rem 2rem;
+    display: flex;
+    gap: .5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  nav a {
+    color: rgba(253,246,227,.6);
+    text-decoration: none;
+    font-size: .78rem;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: .35rem .7rem;
+    border-radius: 2px;
+    transition: all .25s;
+    border: 1px solid transparent;
+  }
+
+  nav a:hover, nav a.ativo {
+    color: var(--verde-claro);
+    border-color: rgba(82,183,136,.3);
+    background: rgba(82,183,136,.08);
+  }
+
+  /* ── SEÇÕES ── */
+  section {
+    padding: 6rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .label-secao {
+    font-family: 'DM Mono', monospace;
+    font-size: .7rem;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--verde-claro);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+  }
+
+  .label-secao::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(82,183,136,.25);
+    max-width: 80px;
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 700;
+    color: var(--creme);
+    line-height: 1.15;
+    margin-bottom: 2rem;
+  }
+
+  h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--ouro-claro);
+    margin: 2rem 0 .8rem;
+  }
+
+  p { color: rgba(253,246,227,.8); margin-bottom: 1rem; }
+
+  /* ── DESTAQUE PRINCIPAL ── */
+  .destaque-hero {
+    background: linear-gradient(135deg, rgba(26,71,49,.6), rgba(15,31,23,.8));
+    border: 1px solid rgba(82,183,136,.3);
+    border-left: 4px solid var(--verde-claro);
+    border-radius: 4px;
+    padding: 2rem 2.2rem;
+    margin: 2.5rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .destaque-hero::before {
+    content: '§';
+    position: absolute;
+    right: 1.5rem;
+    top: .5rem;
+    font-size: 6rem;
+    color: rgba(82,183,136,.06);
+    font-family: 'Playfair Display', serif;
+    line-height: 1;
+  }
+
+  .destaque-hero p {
+    font-size: 1.05rem;
+    color: var(--creme);
+    font-weight: 400;
+  }
+
+  /* ── CARDS TRIPLO ── */
+  .trio {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.2rem;
+    margin: 2.5rem 0;
+  }
+
+  .card {
+    background: rgba(255,255,255,.03);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 6px;
+    padding: 1.6rem;
+    transition: all .3s;
+  }
+
+  .card:hover {
+    background: rgba(82,183,136,.07);
+    border-color: rgba(82,183,136,.25);
+    transform: translateY(-3px);
+  }
+
+  .card-icone {
+    font-size: 1.8rem;
+    margin-bottom: .8rem;
+  }
+
+  .card h4 {
+    font-family: 'Playfair Display', serif;
+    color: var(--verde-claro);
+    margin-bottom: .5rem;
+    font-size: 1rem;
+  }
+
+  .card p { font-size: .88rem; color: rgba(253,246,227,.65); margin: 0; }
+
+  /* ── SEÇÃO LUCAS (DESTAQUE) ── */
+  #lucas {
+    background: linear-gradient(180deg, rgba(26,71,49,.15) 0%, transparent 100%);
+    border-radius: 8px;
+    padding: 6rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .badge-lucas {
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+    background: linear-gradient(90deg, rgba(201,168,76,.2), rgba(201,168,76,.08));
+    border: 1px solid var(--ouro);
+    color: var(--ouro-claro);
+    font-family: 'DM Mono', monospace;
+    font-size: .72rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: .45rem 1rem;
+    border-radius: 999px;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ── LINHA DO RACIOCÍNIO ── */
+  .timeline {
+    margin: 2.5rem 0;
+    position: relative;
+    padding-left: 2rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--verde-claro), rgba(82,183,136,.1));
+  }
+
+  .tl-item {
+    position: relative;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255,255,255,.05);
+  }
+
+  .tl-item:last-child { border-bottom: none; }
+
+  .tl-dot {
+    position: absolute;
+    left: -2.45rem;
+    top: .3rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--verde-claro);
+    border: 2px solid var(--bg);
+    box-shadow: 0 0 0 3px rgba(82,183,136,.2);
+  }
+
+  .tl-item h4 {
+    color: var(--creme);
+    font-weight: 600;
+    margin-bottom: .4rem;
+    font-size: .95rem;
+  }
+
+  .tl-item p { font-size: .88rem; color: rgba(253,246,227,.65); margin: 0; }
+
+  /* ── JURISPRUDÊNCIA ── */
+  .juris {
+    background: rgba(255,255,255,.03);
+    border: 1px solid rgba(201,168,76,.2);
+    border-left: 3px solid var(--ouro);
+    border-radius: 4px;
+    padding: 1.6rem 2rem;
+    margin: 1.5rem 0;
+  }
+
+  .juris-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: .8rem;
+  }
+
+  .juris-badge {
+    background: rgba(201,168,76,.15);
+    color: var(--ouro-claro);
+    font-family: 'DM Mono', monospace;
+    font-size: .65rem;
+    letter-spacing: .08em;
+    padding: .2rem .6rem;
+    border-radius: 2px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: .15rem;
+  }
+
+  .juris h4 {
+    color: var(--ouro-claro);
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    line-height: 1.3;
+  }
+
+  .juris p { font-size: .86rem; color: rgba(253,246,227,.7); margin: 0; }
+
+  /* ── LEI ── */
+  .lei-box {
+    background: rgba(26,71,49,.3);
+    border: 1px solid rgba(82,183,136,.25);
+    border-radius: 4px;
+    padding: 1.2rem 1.6rem;
+    margin: 1rem 0;
+    display: flex;
+    gap: 1.2rem;
+    align-items: flex-start;
+  }
+
+  .lei-num {
+    font-family: 'DM Mono', monospace;
+    font-size: .72rem;
+    color: var(--verde-claro);
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding-top: .15rem;
+  }
+
+  .lei-box p { font-size: .88rem; color: rgba(253,246,227,.75); margin: 0; }
+
+  /* ── ARGUMENTO-CHAVE ── */
+  .arg-chave {
+    background: linear-gradient(135deg, rgba(193,18,31,.08), rgba(193,18,31,.03));
+    border: 1px solid rgba(193,18,31,.25);
+    border-radius: 6px;
+    padding: 1.6rem 2rem;
+    margin: 1.5rem 0;
+  }
+
+  .arg-chave h4 {
+    color: #ff6b6b;
+    font-size: .85rem;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin-bottom: .6rem;
+  }
+
+  .arg-chave p { color: var(--creme); font-size: .92rem; margin: 0; }
+
+  /* ── TABELA NEXO CAUSAL ── */
+  .nexo {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 0;
+    margin: 2rem 0;
+    align-items: stretch;
+  }
+
+  .nexo-bloco {
+    background: rgba(255,255,255,.03);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 6px;
+    padding: 1.4rem;
+    text-align: center;
+  }
+
+  .nexo-bloco.dano { border-color: rgba(193,18,31,.3); background: rgba(193,18,31,.06); }
+  .nexo-bloco.causa { border-color: rgba(82,183,136,.3); background: rgba(82,183,136,.06); }
+
+  .nexo-seta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1rem;
+    color: var(--verde-claro);
+    font-size: 1.5rem;
+  }
+
+  .nexo-bloco span {
+    display: block;
+    font-family: 'DM Mono', monospace;
+    font-size: .65rem;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: rgba(253,246,227,.4);
+    margin-bottom: .4rem;
+  }
+
+  .nexo-bloco strong {
+    color: var(--creme);
+    font-size: .9rem;
+    line-height: 1.4;
+  }
+
+  /* ── PERGUNTAS DE PRESSÃO ── */
+  .pergunta {
+    border-top: 1px solid rgba(255,255,255,.06);
+    padding: 1rem 0;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .pergunta-num {
+    color: var(--verde-claro);
+    font-family: 'DM Mono', monospace;
+    font-size: .75rem;
+    padding-top: .2rem;
+    flex-shrink: 0;
+  }
+
+  .pergunta p { font-style: italic; color: rgba(253,246,227,.85); margin: 0; font-size: .95rem; }
+
+  /* ── FRASE FINAL ── */
+  .frase-final {
+    margin: 4rem 0 2rem;
+    text-align: center;
+    padding: 3rem 2rem;
+    border: 1px solid rgba(82,183,136,.15);
+    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(26,71,49,.3), transparent);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .frase-final::before {
+    content: '"';
+    position: absolute;
+    top: -2rem;
+    left: 1rem;
+    font-size: 12rem;
+    color: rgba(82,183,136,.06);
+    font-family: 'Playfair Display', serif;
+    line-height: 1;
+  }
+
+  .frase-final blockquote {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.2rem, 3vw, 1.7rem);
+    font-style: italic;
+    color: var(--creme);
+    line-height: 1.5;
+    position: relative;
+    z-index: 1;
+  }
+
+  .frase-final cite {
+    display: block;
+    margin-top: 1rem;
+    font-size: .8rem;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--verde-claro);
+    font-style: normal;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid rgba(255,255,255,.06);
+    padding: 2rem;
+    text-align: center;
+    color: rgba(253,246,227,.3);
+    font-size: .78rem;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: .05em;
+  }
+
+  /* ── UTILIDADES ── */
+  .separador {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(82,183,136,.25), transparent);
+    margin: 4rem 0;
+  }
+
+  .tag-lei {
+    display: inline-block;
+    background: rgba(82,183,136,.12);
+    border: 1px solid rgba(82,183,136,.3);
+    color: var(--verde-claro);
+    font-family: 'DM Mono', monospace;
+    font-size: .7rem;
+    padding: .2rem .6rem;
+    border-radius: 2px;
+    margin: .2rem;
+  }
+
+  @media (max-width: 600px) {
+    .nexo { grid-template-columns: 1fr; }
+    .nexo-seta { transform: rotate(90deg); padding: .5rem 0; }
+    nav { gap: .3rem; }
+    nav a { font-size: .68rem; padding: .25rem .5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header>
+  <div class="selos">
+    <span class="selo">ADS – 3ª Fase</span>
+    <span class="selo ouro">Ministério Público</span>
+    <span class="selo">Direito do Consumidor</span>
+  </div>
+  <h1>Caso SafeCloud<span>Prejuízo em Cascata</span></h1>
+  <p class="subtitulo">Análise jurídica pelo Ministério Público — CDC, LGPD e Responsabilidade Objetiva por Vazamento de Dados</p>
+  <div class="integrantes-header">
+    <span class="integrante-tag">Amanda</span>
+    <span class="integrante-tag">Bernardo</span>
+    <span class="integrante-tag">Bruna</span>
+    <span class="integrante-tag">Davi</span>
+    <span class="integrante-tag">Felipe</span>
+    <span class="integrante-tag" style="border-color:rgba(201,168,76,.5)">— e —</span>
+    <span class="integrante-tag">Tiago Cunha</span>
+    <span class="integrante-tag">Laura Mello</span>
+    <span class="integrante-tag">Larissa Siegel</span>
+    <span class="integrante-tag destaque">Lucas Schutz ★</span>
+    <span class="integrante-tag">Vitor Emanuel</span>
+  </div>
+  <div class="seta">↓</div>
+</header>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="#cenario">O Caso</a>
+  <a href="#relacao">Relação de Consumo</a>
+  <a href="#vicio-fato">Vício vs Fato</a>
+  <a href="#lucas">Foco: Lucas Schutz</a>
+  <a href="#risco">Teoria do Risco</a>
+  <a href="#penal">Esfera Penal</a>
+  <a href="#juris">Jurisprudência</a>
+  <a href="#pedidos">Pedidos do MP</a>
+</nav>
+
+<!-- ── CENÁRIO ── -->
+<section id="cenario">
+  <div class="label-secao">01 — O Caso</div>
+  <h2>SafeCloud Tech vs. Padaria Delícia LTDA</h2>
+
+  <div class="trio">
+    <div class="card">
+      <div class="card-icone">🐛</div>
+      <h4>O Vício</h4>
+      <p>Bug no cálculo de ICMS com alíquota menor que a devida. SafeCloud demorou 45 dias para lançar o patch — forçando contratação de contador extra.</p>
+    </div>
+    <div class="card">
+      <div class="card-icone">🔓</div>
+      <h4>O Fato Grave</h4>
+      <p>A atualização abriu brecha crítica de segurança. A diretoria <strong>sabia</strong> e decidiu <em>não informar</em> os clientes para evitar cancelamentos.</p>
+    </div>
+    <div class="card">
+      <div class="card-icone">📣</div>
+      <h4>A Publicidade</h4>
+      <p>"Segurança Nível Bancário: Blindagem Total contra Invasões" — enquanto a empresa usava apenas proteção básica de baixo custo, sem criptografia de ponta.</p>
+    </div>
+  </div>
+
+  <div class="destaque-hero">
+    <p>Dois dias após a ciência interna da vulnerabilidade, hackers exploraram a brecha e vazaram todos os <strong>dados bancários e CPFs</strong> dos clientes da Padaria Delícia cadastrados no sistema. O Ministério Público age em defesa de todos os consumidores afetados — não apenas da Padaria.</p>
+  </div>
+</section>
+
+<div class="separador"></div>
+
+<!-- ── RELAÇÃO DE CONSUMO ── -->
+<section id="relacao">
+  <div class="label-secao">02 — Vitor Emanuel</div>
+  <h2>A Padaria É Consumidora?</h2>
+
+  <div class="lei-box">
+    <span class="lei-num">Art. 2º CDC</span>
+    <p>"Consumidor é toda pessoa física ou jurídica que adquire ou utiliza produto ou serviço como <strong>destinatário final</strong>."</p>
+  </div>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <h4>Destinatária Final</h4>
+      <p>A Padaria utiliza o ERP para organizar suas vendas, calcular impostos e gerenciar dados. Ela <em>não revende</em> o software — consome o serviço como ponto final da cadeia.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <h4>Teoria Finalista Mitigada (REsp 1.195.642/STJ)</h4>
+      <p>O STJ reconhece que pessoas jurídicas podem ser consumidoras quando comprovada a vulnerabilidade técnica diante do fornecedor. A Padaria não possui expertise em tecnologia, segurança digital ou integração fiscal.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <h4>Vulnerabilidade Técnica (Art. 4º, I, CDC)</h4>
+      <p>A SafeCloud detém domínio absoluto sobre a tecnologia, arquitetura e segurança do sistema. A Padaria confia cegamente na empresa — exatamente o que o CDC visa proteger.</p>
+    </div>
+  </div>
+</section>
+
+<div class="separador"></div>
+
+<!-- ── VÍCIO vs FATO ── -->
+<section id="vicio-fato">
+  <div class="label-secao">03 — Larissa Siegel</div>
+  <h2>Vício do Serviço: O Bug do ICMS</h2>
+
+  <div class="lei-box">
+    <span class="lei-num">Art. 20 CDC</span>
+    <p>"O fornecedor de serviços responde pelos <strong>vícios de qualidade</strong> que os tornem impróprios ao consumo ou lhes diminuam o valor."</p>
+  </div>
+
+  <p>O sistema calculava ICMS errado — descumprindo sua <em>finalidade principal</em> de automatizar os cálculos tributários com precisão. A demora de <strong>45 dias</strong> para correção agravou os danos, forçando a Padaria a contratar suporte contábil adicional.</p>
+
+  <div class="arg-chave">
+    <h4>⚠ Por que isso importa no debate</h4>
+    <p>A defesa da SafeCloud vai tentar minimizar o bug do ICMS como "mero vício sanável". O MP deve rebater: não é simples erro técnico — é falha que gerou custo real e concreto à empresa consumidora. O vício existiu, mas não exclui o fato do serviço (vazamento), que é muito mais grave.</p>
+  </div>
+</section>
+
+<div class="separador"></div>
+
+<!-- ── LUCAS: FOCO PRINCIPAL ── -->
+<section id="lucas">
+  <div class="badge-lucas">⭐ Integrante 3 — Foco Principal</div>
+  <div class="label-secao">04 — Lucas Schutz</div>
+  <h2>Vazamento de Dados + Responsabilidade Objetiva</h2>
+
+  <div class="lei-box">
+    <span class="lei-num">Art. 14 CDC</span>
+    <p>"O fornecedor de serviços responde, <strong>independentemente da existência de culpa</strong>, pela reparação dos danos causados aos consumidores por defeitos relativos à prestação dos serviços, bem como por informações insuficientes ou inadequadas sobre sua fruição e riscos."</p>
+  </div>
+
+  <h3>O Acidente de Consumo</h3>
+  <p>O vazamento de dados bancários e CPFs não é um simples defeito técnico — é um <strong>fato do serviço</strong>, também chamado de "acidente de consumo". A diferença com o vício (Art. 20) é fundamental:</p>
+
+  <div class="trio">
+    <div class="card">
+      <div class="card-icone">🔧</div>
+      <h4>Vício (Art. 20)</h4>
+      <p>Defeito no funcionamento do serviço. Afeta o serviço em si. Solução: correção, restituição ou abatimento.</p>
+    </div>
+    <div class="card" style="border-color:rgba(193,18,31,.3);">
+      <div class="card-icone">💥</div>
+      <h4>Fato do Serviço (Art. 14)</h4>
+      <p>Defeito que causa dano ao consumidor ou a terceiros. Vai além da prestação — gera risco externo. Responsabilidade muito mais ampla e grave.</p>
+    </div>
+    <div class="card">
+      <div class="card-icone">⚖️</div>
+      <h4>Por que isso muda tudo</h4>
+      <p>O Art. 14 dispensa qualquer prova de culpa. Basta o dano + nexo causal. A SafeCloud responde independentemente de ter ou não desejado o resultado.</p>
+    </div>
+  </div>
+
+  <h3>O Nexo Causal é Claro e Direto</h3>
+  <p>O triângulo da responsabilidade objetiva está completo:</p>
+
+  <div class="nexo">
+    <div class="nexo-bloco causa">
+      <span>Conduta/Defeito</span>
+      <strong>Brecha de segurança criada pela atualização da SafeCloud + omissão proposital</strong>
+    </div>
+    <div class="nexo-seta">→</div>
+    <div class="nexo-bloco dano">
+      <span>Dano</span>
+      <strong>Vazamento de dados bancários e CPFs de todos os clientes da Padaria</strong>
+    </div>
+  </div>
+
+  <p style="margin-top:.5rem; font-size:.85rem; color:rgba(253,246,227,.5); text-align:center;">O nexo causal não precisa ser provado com culpa — apenas que o defeito <em>causou</em> o dano.</p>
+
+  <h3>Dados Bancários: Proteção Reforçada</h3>
+
+  <div class="lei-box">
+    <span class="lei-num">LGPD Art. 46</span>
+    <p>"Os agentes de tratamento devem adotar medidas de segurança, técnicas e administrativas aptas a proteger os dados pessoais de acessos não autorizados..."</p>
+  </div>
+
+  <div class="lei-box">
+    <span class="lei-num">LGPD Art. 48</span>
+    <p>"O controlador deverá comunicar à autoridade nacional e ao titular a ocorrência de incidente de segurança que possa acarretar risco ou dano relevante aos titulares." <em>(A SafeCloud fez exatamente o oposto.)</em></p>
+  </div>
+
+  <div class="lei-box">
+    <span class="lei-num">LGPD Art. 42 + 45</span>
+    <p>Quem causar dano patrimonial ou moral em violação à legislação de proteção de dados é obrigado a repará-lo. As relações de consumo permanecem sujeitas ao CDC — ou seja, aplica-se o Art. 14 do CDC <em>em conjunto</em> com a LGPD.</p>
+  </div>
+
+  <h3>Dano Moral Presumido — Jurisprudência do STJ (2025)</h3>
+
+  <div class="juris">
+    <div class="juris-header">
+      <span class="juris-badge">STJ | REsp 2.121.904/SP</span>
+      <h4>Vazamento de dados sensíveis gera dano moral presumido e responsabilidade objetiva</h4>
+    </div>
+    <p>Relatora Min. Nancy Andrighi, 3ª Turma, julgado em 11/02/2025. O STJ firmou que <strong>o simples vazamento de dados sensíveis já é suficiente</strong> para caracterizar lesão à privacidade — sem necessidade de provar danos materiais ou psicológicos específicos.</p>
+  </div>
+
+  <div class="juris">
+    <div class="juris-header">
+      <span class="juris-badge">STJ | REsp 2.147.374/SP</span>
+      <h4>Ataque hacker não afasta responsabilidade quando empresa não prova adoção de boas práticas</h4>
+    </div>
+    <p>3ª Turma, julgado em 03/12/2024. Empresa alegou culpa de terceiros (hackers). O STJ rejeitou: a ausência de comprovação de culpa exclusiva do terceiro impede o reconhecimento da excludente. A empresa precisa demonstrar que adotou governança de dados, ferramentas de supervisão e controles preventivos.</p>
+  </div>
+
+  <div class="juris">
+    <div class="juris-header">
+      <span class="juris-badge">STJ | REsp 2.115.461/SP</span>
+      <h4>Disponibilização indevida de dados para terceiros: dano moral in re ipsa</h4>
+    </div>
+    <p>3ª Turma, julgado em 08/10/2024. "A disponibilização indevida de dados pessoais pelos bancos de dados para terceiros caracteriza <strong>dano moral presumido</strong> (in re ipsa) ao cadastrado titular dos dados, diante da forte sensação de insegurança por ele experimentada."</p>
+  </div>
+
+  <h3>Ponto Central: Três Elementos que Tornam Este Caso Irrefutável</h3>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot" style="background:var(--ouro);"></div>
+      <h4>1. A própria SafeCloud criou a brecha</h4>
+      <p>Não foi uma vulnerabilidade preexistente. Foi a atualização da empresa que abriu o buraco. A causa do dano é endógena — nasce dentro da atividade da empresa.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot" style="background:var(--ouro);"></div>
+      <h4>2. A empresa sabia e se omitiu</h4>
+      <p>A diretoria tomou ciência da falha de segurança e, conscientemente, decidiu não comunicar os clientes. Isso não apenas confirma o nexo — agrava a responsabilidade e caracteriza violação direta ao Art. 48 da LGPD e Art. 6º, III, do CDC.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot" style="background:var(--ouro);"></div>
+      <h4>3. Dados bancários + CPFs = Sensibilidade Máxima</h4>
+      <p>Dados financeiros gozam de proteção pelo sigilo bancário (LC 105/2001) e constituem dimensão central da privacidade econômica. O STJ já assentou que exposição de dados dessa natureza configura dano moral presumido.</p>
+    </div>
+  </div>
+
+  <h3>Como Rebater os Argumentos da Defesa</h3>
+
+  <div class="arg-chave">
+    <h4>🛡 Defesa: "Foram os hackers que causaram o dano"</h4>
+    <p><strong>MP:</strong> A brecha foi criada pela própria SafeCloud. O ataque hacker era risco previsível e inerente à atividade de empresa de tecnologia. A empresa sabia da vulnerabilidade e não avisou ninguém. O Art. 14, §3º do CDC só exclui responsabilidade por culpa <em>exclusiva</em> de terceiro — e aqui, o defeito veio de dentro.</p>
+  </div>
+
+  <div class="arg-chave">
+    <h4>🛡 Defesa: "Segurança total não existe para ninguém"</h4>
+    <p><strong>MP:</strong> O problema não é a invasão em si — é a combinação de: não usar criptografia adequada, criar a brecha com a própria atualização, e depois <em>esconder isso dos clientes</em>. A questão é a falta de medidas previstas no Art. 46 da LGPD, não a falibilidade universal da tecnologia.</p>
+  </div>
+
+  <div class="arg-chave">
+    <h4>🛡 Defesa: "A Padaria também tem responsabilidade sobre seus dados"</h4>
+    <p><strong>MP:</strong> A responsabilidade objetiva do Art. 14 do CDC não admite culpa concorrente como excludente. Além disso, a Padaria não tinha como saber da vulnerabilidade — a SafeCloud a escondeu ativamente. Quem escolheu ocultar o risco foi a empresa fornecedora.</p>
+  </div>
+
+  <div class="frase-final">
+    <blockquote>"A SafeCloud vendeu confiança, prometeu segurança e entregou exposição, prejuízo e vulnerabilidade."</blockquote>
+    <cite>— Encerramento do Grupo MP (Laura Mello)</cite>
+  </div>
+</section>
+
+<div class="separador"></div>
+
+<!-- ── TEORIA DO RISCO ── -->
+<section id="risco">
+  <div class="label-secao">05 — Tiago Duarte</div>
+  <h2>Teoria do Risco do Empreendimento</h2>
+
+  <div class="destaque-hero">
+    <p>Quem exerce atividade econômica <strong>assume os riscos inerentes à sua operação</strong>. Uma empresa de tecnologia SaaS que armazena dados bancários de terceiros tem o risco de ataques cibernéticos como parte previsível — e gerenciável — de seu negócio.</p>
+  </div>
+
+  <div class="lei-box">
+    <span class="lei-num">Art. 14 §3º CDC</span>
+    <p>A responsabilidade só pode ser excluída se o fornecedor provar: (I) inexistência do defeito, (II) culpa exclusiva da vítima, ou (III) culpa exclusiva de terceiros. No caso SafeCloud, <strong>nenhuma dessas hipóteses se aplica</strong>: o defeito existiu, foi criado pela própria empresa, que ainda agiu com omissão dolosa.</p>
+  </div>
+
+  <div class="juris">
+    <div class="juris-header">
+      <span class="juris-badge">STJ | REsp 2.147.374/SP — 2024</span>
+      <h4>Hackers como causa: excludente rejeitada</h4>
+    </div>
+    <p>O STJ rejeitou a tese de culpa de terceiro (hackers) porque a empresa <em>não comprovou adoção de boas práticas de segurança</em>. A ausência de criptografia adequada, combinada com a criação da brecha pela própria atualização, afasta qualquer excludente de responsabilidade.</p>
+  </div>
+
+  <div class="arg-chave">
+    <h4>⚡ Argumento Decisivo</h4>
+    <p>O hacker não criou a vulnerabilidade — <em>apenas a encontrou</em>. A SafeCloud criou a porta aberta. O hacker apenas entrou. A causa jurídica eficiente é a conduta da empresa, não a do invasor.</p>
+  </div>
+</section>
+
+<div class="separador"></div>
+
+<!-- ── ESFERA PENAL ── -->
+<section id="penal">
+  <div class="label-secao">06 — Laura Mello</div>
+  <h2>Esfera Penal: Dois Crimes em Potencial</h2>
+
+  <div class="lei-box">
+    <span class="lei-num">Art. 67 CDC</span>
+    <p>"Fazer ou promover publicidade que sabe ou deveria saber ser enganosa ou abusiva: Pena — detenção de 3 meses a 1 ano e multa."</p>
+  </div>
+
+  <p>O banner "Segurança Nível Bancário: Blindagem Total contra Invasões" criou uma <strong>falsa expectativa de segurança</strong> nos consumidores. Descobriu-se que a empresa usava apenas proteção básica de baixo custo, sem criptografia de ponta. Isso configura publicidade enganosa por omissão (Art. 37, §3º, CDC) — o consumidor não foi informado de limitação essencial do serviço.</p>
+
+  <div class="lei-box">
+    <span class="lei-num">Art. 62 CDC</span>
+    <p>"Colocar no mercado de consumo produto ou serviço impróprio: Pena — detenção de 6 meses a 2 anos e multa."</p>
+  </div>
+
+  <p>A diretoria sabia da brecha crítica de segurança e <strong>conscientemente</strong> manteve o serviço ativo sem avisar os clientes. Isso caracteriza a colocação de serviço impróprio no mercado de consumo. A omissão não foi negligência — foi decisão estratégica documentável, o que pode configurar dolo.</p>
+
+  <div class="lei-box">
+    <span class="lei-num">LGPD Art. 48</span>
+    <p>Obrigação de comunicar incidente de segurança à ANPD e aos titulares em até 2 dias úteis (Resolução CD/ANPD nº 4/2023). A SafeCloud não só descumpriu — agiu na direção oposta, deliberadamente omitindo a informação.</p>
+  </div>
+</section>
+
+<div class="separador"></div>
+
+<!-- ── JURISPRUDÊNCIA CONSOLIDADA ── -->
+<section id="juris">
+  <div class="label-secao">07 — Base Jurídica Consolidada</div>
+  <h2>Jurisprudência & Fundamentação Legal</h2>
+
+  <h3>Julgados Principais</h3>
+
+  <div class="juris">
+    <div class="juris-header">
+      <span class="juris-badge">STJ | REsp 2.121.904/SP | 2025</span>
+      <h4>Dano Moral Presumido em Vazamento de Dados Sensíveis</h4>
+    </div>
+    <p>Rel. Min. Nancy Andrighi, 3ª Turma, 11/02/2025. Firmou tese: vazamento de dados sensíveis submete o consumidor a riscos em sua honra, imagem, patrimônio e segurança — gerando responsabilidade objetiva e dano moral presumido (in re ipsa), dispensada a prova de prejuízo específico.</p>
+  </div>
+
+  <div class="juris">
+    <div class="juris-header">
+      <span class="juris-badge">STJ | REsp 2.147.374/SP | 2024</span>
+      <h4>Ataque Hacker Não Exclui Responsabilidade por Falha de Segurança</h4>
+    </div>
+    <p>Rel. Min. Ricardo Villas Bôas Cueva, 3ª Turma, 03/12/2024. Mesmo em caso de ataque hacker, o agente de tratamento permanece responsável se não comprova adoção de boas práticas (governança, supervisão, controles preventivos). Conceito de "expectativa legítima de proteção" dos dados.</p>
+  </div>
+
+  <div class="juris">
+    <div class="juris-header">
+      <span class="juris-badge">STJ | REsp 2.115.461/SP | 2024</span>
+      <h4>Disponibilização Indevida: Dano Moral In Re Ipsa</h4>
+    </div>
+    <p>Rel. Min. Nancy Andrighi, 3ª Turma, 08/10/2024. "A disponibilização indevida de dados pessoais pelos bancos de dados para terceiros caracteriza dano moral presumido (in re ipsa) ao cadastrado titular dos dados, diante da forte sensação de insegurança por ele experimentada."</p>
+  </div>
+
+  <div class="juris">
+    <div class="juris-header">
+      <span class="juris-badge">STJ | REsp 1.195.642 | Teoria Finalista Mitigada</span>
+      <h4>Pessoa Jurídica como Consumidora pela Vulnerabilidade Técnica</h4>
+    </div>
+    <p>Referência do grupo (Subgrupo Amanda/Bernardo/Bruna/Davi/Felipe). Reconhece a aplicação do CDC a pessoas jurídicas que demonstrem vulnerabilidade diante do fornecedor com domínio técnico superior.</p>
+  </div>
+
+  <div class="juris">
+    <div class="juris-header">
+      <span class="juris-badge">STJ | Súmula 479</span>
+      <h4>Fortuito Interno — Fraudes por Terceiros</h4>
+    </div>
+    <p>"As instituições financeiras respondem objetivamente pelos danos gerados por fortuito interno relativo a fraudes e delitos praticados por terceiros no âmbito de operações bancárias." Por analogia, aplica-se às empresas de tecnologia que guardam dados bancários de consumidores.</p>
+  </div>
+
+  <h3>Legislação Aplicada</h3>
+  <div style="margin-top:1rem; line-height:2.2;">
+    <span class="tag-lei">CDC Art. 2º — Consumidor</span>
+    <span class="tag-lei">CDC Art. 3º — Fornecedor</span>
+    <span class="tag-lei">CDC Art. 4º, I — Vulnerabilidade</span>
+    <span class="tag-lei">CDC Art. 6º, III — Dever de Informação</span>
+    <span class="tag-lei">CDC Art. 14 — Fato do Serviço</span>
+    <span class="tag-lei">CDC Art. 20 — Vício do Serviço</span>
+    <span class="tag-lei">CDC Art. 37 — Publicidade Enganosa</span>
+    <span class="tag-lei">CDC Art. 62 — Serviço Impróprio (crime)</span>
+    <span class="tag-lei">CDC Art. 67 — Publicidade Enganosa (crime)</span>
+    <span class="tag-lei">LGPD Art. 42 — Responsabilidade Civil</span>
+    <span class="tag-lei">LGPD Art. 45 — Relações de Consumo</span>
+    <span class="tag-lei">LGPD Art. 46 — Medidas de Segurança</span>
+    <span class="tag-lei">LGPD Art. 48 — Dever de Comunicação</span>
+    <span class="tag-lei">EC 115/2022 — Proteção de Dados como Dir. Fundamental</span>
+    <span class="tag-lei">LC 105/2001 — Sigilo Bancário</span>
+  </div>
+</section>
+
+<div class="separador"></div>
+
+<!-- ── PEDIDOS DO MP ── -->
+<section id="pedidos">
+  <div class="label-secao">08 — Conclusão</div>
+  <h2>Pedidos do Ministério Público</h2>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot" style="background:var(--vermelho);box-shadow:0 0 0 3px rgba(193,18,31,.2);"></div>
+      <h4>Reconhecimento da Responsabilidade Objetiva</h4>
+      <p>Da SafeCloud pelos fatos descritos — Art. 14 do CDC c/c Arts. 42 e 45 da LGPD.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot" style="background:var(--vermelho);box-shadow:0 0 0 3px rgba(193,18,31,.2);"></div>
+      <h4>Indenização por Danos Materiais</h4>
+      <p>Gastos com contador extra durante os 45 dias de correção do bug do ICMS — dano direto e mensurável.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot" style="background:var(--vermelho);box-shadow:0 0 0 3px rgba(193,18,31,.2);"></div>
+      <h4>Indenização por Danos Morais (Coletivos)</h4>
+      <p>Dano moral presumido (in re ipsa) pela exposição de dados bancários e CPFs de todos os consumidores afetados — incluindo terceiros clientes da Padaria.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot" style="background:var(--vermelho);box-shadow:0 0 0 3px rgba(193,18,31,.2);"></div>
+      <h4>Obrigação de Implementar Segurança Eficaz</h4>
+      <p>Criptografia de ponta a ponta, mecanismos de detecção de intrusão, planos de resposta a incidentes e notificação imediata em conformidade com o Art. 46 da LGPD.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot" style="background:var(--vermelho);box-shadow:0 0 0 3px rgba(193,18,31,.2);"></div>
+      <h4>Responsabilização Penal da Diretoria</h4>
+      <p>Por publicidade enganosa (Art. 67 CDC) e colocação de serviço impróprio no mercado de consumo com conhecimento da falha (Art. 62 CDC), além de violação ao dever de notificação da LGPD (Art. 48).</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot" style="background:var(--vermelho);box-shadow:0 0 0 3px rgba(193,18,31,.2);"></div>
+      <h4>Sanções Administrativas</h4>
+      <p>ANPD pode aplicar multa de até 2% do faturamento, limitada a R$ 50 milhões por infração — além de publicidade da sanção que impacta a reputação da empresa.</p>
+    </div>
+  </div>
+
+  <div class="destaque-hero">
+    <p>O Ministério Público age em defesa de toda a coletividade afetada. Mais do que resolver este caso, é necessário garantir que empresas que lidam com dados e tecnologia ajam com <strong>responsabilidade, transparência e respeito aos consumidores</strong>.</p>
+  </div>
+</section>
+
+<!-- ── PERGUNTAS DE PRESSÃO ── -->
+<section>
+  <div class="label-secao">09 — Pressão no Debate</div>
+  <h2>Perguntas para Pressionar a Defesa</h2>
+
+  <div class="pergunta"><span class="pergunta-num">01</span><p>"Se a empresa sabia da vulnerabilidade, por que não informou imediatamente os clientes — como exige o Art. 48 da LGPD?"</p></div>
+  <div class="pergunta"><span class="pergunta-num">02</span><p>"Como um sistema com 'Blindagem Total contra Invasões' sofreu invasão exatamente pela brecha que a própria empresa criou?"</p></div>
+  <div class="pergunta"><span class="pergunta-num">03</span><p>"A busca pelo lucro e pelo evitar cancelamentos pode justificar a omissão de um risco de segurança real e imediato?"</p></div>
+  <div class="pergunta"><span class="pergunta-num">04</span><p>"Se o sistema era seguro 'como um banco', por que a empresa não usava criptografia de ponta — tecnologia básica em qualquer banco real?"</p></div>
+  <div class="pergunta"><span class="pergunta-num">05</span><p>"A SafeCloud pode demonstrar documentalmente que adotou as medidas de segurança previstas no Art. 46 da LGPD antes da atualização problemática?"</p></div>
+  <div class="pergunta"><span class="pergunta-num">06</span><p>"Nos termos do REsp 2.147.374/STJ de 2024: quais exatamente foram as boas práticas de governança de dados que a empresa adotou e que justificariam afastar sua responsabilidade?"</p></div>
+</section>
+
+<footer>
+  ADS – 3ª Fase &nbsp;|&nbsp; Ministério Público — Caso SafeCloud &nbsp;|&nbsp; Direito do Consumidor & LGPD<br>
+  Subgrupo 1: Amanda · Bernardo · Bruna · Davi · Felipe &nbsp;|&nbsp; Subgrupo 2: Tiago · Laura · Larissa · Lucas ★ · Vitor
+</footer>
+
+<script>
+  // Highlight active nav link on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('nav a');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('ativo'));
+        const active = document.querySelector(`nav a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('ativo');
+      }
+    });
+  }, { threshold: 0.3 });
+
+  sections.forEach(s => observer.observe(s));
+
+  // Fade-in on scroll
+  const cards = document.querySelectorAll('.card, .juris, .lei-box, .arg-chave, .tl-item');
+  const fadeObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  cards.forEach(c => {
+    c.style.opacity = '0';
+    c.style.transform = 'translateY(20px)';
+    c.style.transition = 'opacity .5s ease, transform .5s ease';
+    fadeObs.observe(c);
+  });
+</script>
+
+</body>
+</html>
